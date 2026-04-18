@@ -116,26 +116,26 @@ def build_pdf(markdown_text: str) -> bytes:
             pdf.ln(2)
             pdf.multi_cell(0, 6, clean(stripped[4:]))
         elif stripped.startswith("|"):
-            # Table row — strip pipes, align columns
             cells = [c.strip() for c in stripped.split("|") if c.strip()]
             if all(set(c) <= set("-: ") for c in cells):
-                # Separator row
                 continue
             pdf.set_font("Helvetica", size=9)
+            pdf.set_x(pdf.l_margin)
             row_text = "  |  ".join(clean(c) for c in cells)
             pdf.multi_cell(0, 5, row_text)
         elif stripped.startswith(("- ", "* ")):
             pdf.set_font("Helvetica", size=10)
-            pdf.set_x(25)
+            pdf.set_x(pdf.l_margin + 5)
             pdf.multi_cell(0, 5, "- " + clean(stripped[2:]))
         elif re.match(r"^\d+\.", stripped):
             pdf.set_font("Helvetica", size=10)
-            pdf.set_x(25)
+            pdf.set_x(pdf.l_margin + 5)
             pdf.multi_cell(0, 5, clean(stripped))
         elif stripped == "":
             pdf.ln(3)
         else:
             pdf.set_font("Helvetica", size=10)
+            pdf.set_x(pdf.l_margin)
             pdf.multi_cell(0, 5, clean(stripped))
 
     return bytes(pdf.output())
@@ -173,8 +173,8 @@ if generate_btn and notes.strip():
             output_placeholder.markdown(full_output + "▌")
 
     output_placeholder.markdown(full_output)
-
     st.session_state["postmortem"] = full_output
+    st.rerun()
 
 if "postmortem" in st.session_state:
     st.divider()
