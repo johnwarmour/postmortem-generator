@@ -181,6 +181,8 @@ if generate_btn and notes.strip():
 
 if "postmortem" in st.session_state:
     st.divider()
+    st.markdown(st.session_state["postmortem"])
+    st.divider()
     col1, col2 = st.columns(2)
 
     with col1:
