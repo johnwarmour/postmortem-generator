@@ -119,7 +119,7 @@ def build_pdf(markdown_text: str) -> bytes:
         elif stripped.startswith(("- ", "* ")):
             pdf.set_font("Helvetica", size=10)
             pdf.set_x(25)
-            pdf.multi_cell(0, 5, "\u2022 " + clean(stripped[2:]))
+            pdf.multi_cell(0, 5, "- " + clean(stripped[2:]))
         elif re.match(r"^\d+\.", stripped):
             pdf.set_font("Helvetica", size=10)
             pdf.set_x(25)
