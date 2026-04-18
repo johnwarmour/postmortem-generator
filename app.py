@@ -84,11 +84,19 @@ def build_pdf(markdown_text: str) -> bytes:
     pdf.set_auto_page_break(auto=True, margin=20)
 
     def clean(text: str) -> str:
-        # Strip markdown bold/italic/code for plain PDF rendering
         text = re.sub(r"\*\*(.+?)\*\*", r"\1", text)
         text = re.sub(r"\*(.+?)\*", r"\1", text)
         text = re.sub(r"`(.+?)`", r"\1", text)
-        return text
+        # Replace common Unicode punctuation with ASCII equivalents
+        replacements = {
+            "\u2014": "--", "\u2013": "-", "\u2012": "-",
+            "\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"',
+            "\u2026": "...", "\u2022": "-", "\u00b7": "-",
+        }
+        for char, sub in replacements.items():
+            text = text.replace(char, sub)
+        # Drop anything still outside Latin-1
+        return text.encode("latin-1", errors="ignore").decode("latin-1")
 
     for line in markdown_text.splitlines():
         stripped = line.strip()
