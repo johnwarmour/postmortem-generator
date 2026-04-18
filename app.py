@@ -160,7 +160,10 @@ notes = st.text_area(
     ),
 )
 
-generate_btn = st.button("Generate Post-Mortem", type="primary", disabled=not notes.strip())
+generate_btn = st.button("Generate Post-Mortem", type="primary")
+
+if generate_btn and not notes.strip():
+    st.warning("Please enter some incident notes first.")
 
 if generate_btn and notes.strip():
     st.divider()
