@@ -33,8 +33,17 @@ ANTHROPIC_API_KEY=your_key_here
 
 ## Usage
 
+### Local
+
 ```bash
 streamlit run app.py
+```
+
+### Docker
+
+```bash
+docker build -t postmortem-generator .
+docker run -p 8501:8501 -e ANTHROPIC_API_KEY=your_key_here postmortem-generator
 ```
 
 Open [http://localhost:8501](http://localhost:8501), paste your incident notes, and click **Generate Post-Mortem**.
