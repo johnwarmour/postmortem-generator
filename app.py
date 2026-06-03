@@ -77,6 +77,7 @@ def generate_postmortem(notes: str):
             yield text
 
 
+@st.cache_data
 def build_pdf(markdown_text: str) -> bytes:
     pdf = FPDF()
     pdf.set_margins(20, 20, 20)
