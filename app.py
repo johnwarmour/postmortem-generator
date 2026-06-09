@@ -178,10 +178,13 @@ if generate_btn and notes.strip():
 
     output_placeholder.markdown(full_output)
     st.session_state["postmortem"] = full_output
+    st.session_state["postmortem_notes_hash"] = hash(notes)
     st.rerun()
 
 if "postmortem" in st.session_state:
     st.divider()
+    if hash(notes) != st.session_state.get("postmortem_notes_hash"):
+        st.warning("Notes have changed — post-mortem below may be out of date. Re-generate to refresh.")
     st.markdown(st.session_state["postmortem"])
     st.divider()
     col1, col2 = st.columns(2)
